@@ -1,0 +1,50 @@
+---
+title: "Anomalize Demo"
+author: "Bruce Campbell"
+date: "5/7/2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+install.packages("anomalize")
+
+# Core Tidyverse
+install.packages('tidyverse')
+install.packages('glue')
+install.packages('forcats')
+
+# Time Series
+install.packages('timetk')
+install.packages('tidyquant')
+#install.packages('tidyquant', dependencies=TRUE, repos='http://cran.rstudio.com/')
+install.packages('tibbletime')
+
+# Visualization
+install.packages('cowplot')
+
+# Preprocessing
+install.packages('recipes')
+
+# Sampling / Accuracy
+install.packages('rsample')
+install.packages('yardstick') 
+
+library(tidyverse)
+library(anomalize)
+tidyverse_cran_downloads
+
+#Use the three tidy functions: time_decompose(), anomalize(), 
+#and time_recompose() to detect anomalies. Tack on a fourth, plot_anomalies() to visualize.
+
+tidyverse_cran_downloads %>%
+  time_decompose(count) %>%
+  anomalize(remainder) %>%
+  time_recompose() %>%
+  plot_anomalies(time_recomposed = TRUE, ncol = 3, alpha_dots = 0.5)
+
+tidyverse_cran_downloads %>%
+  time_decompose(count, method = "stl", frequency = "auto", trend = "auto")
+```
